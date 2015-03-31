@@ -1,0 +1,14 @@
+{
+  "name": "fooda-warning",
+  "version": "1.0.0",
+  "description": "Friendly reminder for HighGround that you need to order Fooda",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-hipchat": "^0.4.5"
+  }
+}
