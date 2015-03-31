@@ -10,4 +10,6 @@ HC.postMessage({
 	message_format: 'text',
 	notify: 1,
 	color: 'green'
+}, function (data, err) {
+	console.log('sent message', err);
 });
