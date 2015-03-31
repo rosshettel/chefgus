@@ -1,10 +1,10 @@
 "use strict";
 var Hipchat = require('node-hipchat'),
 	HC = new Hipchat(process.env.hipchat_token),
-	mainRoomId = '534478';
+	mainRoomId = '534478';  // HighGround room id
 
 HC.postMessage({
-	room: '926773',
+	room: mainRoomId,
 	from: 'Chef Gus',
 	message: '(fooda) 15 Minutes left to order Fooda!',
 	message_format: 'text',
