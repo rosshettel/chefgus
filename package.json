@@ -8,7 +8,5 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "node-hipchat": "^0.4.5"
-  }
+  "dependencies": {}
 }
