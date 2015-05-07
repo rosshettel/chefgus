@@ -1,15 +1,21 @@
 "use strict";
-var Hipchat = require('node-hipchat'),
-     HC = new Hipchat(process.env.hipchat_token),
-     mainRoomId = '534478';  // HighGround room id
+var superagent = require('superagent'),
+    webhook = process.env.webhook,
+    messages = [
+        'Bonjour, 15 Minutes ordre de gauche à Fooda!',
+        'Quickly! Order zee Fooda! Mangez bien!',
+        '15 minutes left for Fooda! Bon appétit!'
+    ];
 
-HC.postMessage({
-     room: mainRoomId,
-     from: 'Chef Gus',
-     message: '(fooda) 15 Minutes left to order Fooda! - https://select.fooda.com/my',
-     message_format: 'text',
-     notify: 1,
-     color: 'green'
-}, function (data, err) {
-     console.log('sent message', err);
-});
+superagent.post(webhook)
+    .send({
+         username: 'Chef Gus',
+         icon_emoji: ':chefgus:',
+         channel: '#testing',
+         text: messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
+    }).end(function (err, res) {
+        if (res.statusCode !== 200) {
+            console.log('Slack returned non 200 response code', res.body);
+            console.log(res.headers);
+        }
+    });
