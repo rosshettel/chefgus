@@ -10,7 +10,7 @@ var superagent = require('superagent'),
         username: 'Chef Gus',
         icon_emoji: ':chefgus:',
         channel: '#highground',
-        text: '@all - ' + messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
+        text: '@channel - ' + messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
     };
 
 superagent.post(webhook, payload, function (err, res) {
