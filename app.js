@@ -12,7 +12,7 @@ var superagent = require('superagent'),
     payload = {
         username: 'Chef Gus',
         icon_emoji: ':chefgus:',
-        channel: '#testing',
+        channel: '#highground',
         text: messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
     };
 
