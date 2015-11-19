@@ -9,6 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "superagent": "^1.2.0"
+    "moment": "^2.10.6",
+    "node-schedule": "^0.5.1",
+    "slack-winston": "0.0.3",
+    "superagent": "^1.2.0",
+    "winston": "^2.1.1"
   }
 }
