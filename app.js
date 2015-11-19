@@ -17,6 +17,9 @@ var superagent = require('superagent'),
         });
     };
 
+var userNotificationStorage = require('./userNotificationStorage');
+userNotificationStorage.instantiateTestDB();
+
 scheduler.scheduleJob('45 9 * * 1-5', function () {
     logger.debug('Posting 9:45 notification');
     contentBuilder.buildPayload(function (err, payload) {
