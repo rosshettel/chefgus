@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
     "moment": "^2.10.6",
     "node-schedule": "^0.5.1",
     "slack-winston": "0.0.3",

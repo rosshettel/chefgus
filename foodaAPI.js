@@ -39,4 +39,4 @@ var FoodaAPI = function () {
     };
 };
 
-module.exports = FoodaAPI;
+module.exports = new FoodaAPI();
