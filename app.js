@@ -4,8 +4,11 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     port = process.env.PORT || 8080,
     app = express(),
+    logger = require('./logger'),
     slackHandler = require('./slackHandler'),
     userNotificationStorage = require('./userNotificationStorage');
+
+logger.info('Web started');
 
 app.use(bodyParser.json());
 

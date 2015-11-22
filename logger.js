@@ -15,7 +15,7 @@ var winston = require('winston'),
             new slackWinston.Slack({
                 domain: 'highground',
                 webhook_url: slackWebhook,
-                channel: 'chefgus',
+                channel: 'chefguslogs',
                 silent: slackWebhook === 'n/a',
                 level: 'debug'
             })
