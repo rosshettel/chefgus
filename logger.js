@@ -13,9 +13,9 @@ var winston = require('winston'),
                 }
             }),
             new slackWinston.Slack({
-                domain: 'highground',
+                domain: 'rosshettel',
                 webhook_url: slackWebhook,
-                channel: 'chefguslogs',
+                channel: 'chefgus-logs',
                 silent: slackWebhook === 'n/a',
                 level: 'debug'
             })
