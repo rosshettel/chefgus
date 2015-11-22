@@ -12,7 +12,7 @@ logger.info('Web started');
 
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+app.post('/slash', function (req, res) {
     function respondWithError(err) {
         res.send({
             text: "My apologies, I couldn't handle your request", //todo - frenchify this
