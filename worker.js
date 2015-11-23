@@ -1,6 +1,7 @@
 'use strict';
 
 var scheduler = require('node-schedule'),
+    moment = require('moment'),
     contentBuilder = require('./contentBuilder'),
     userNotificationStorage = require('./userNotificationStorage'),
     logger = require('./logger'),
@@ -20,7 +21,7 @@ scheduler.scheduleJob('45 9 * * 1-5', function () {
 });
 
 scheduler.scheduleJob('* * * * 1-5', function () {
-    logger.debug('Checking for user notifications');
+    logger.debug('Checking for user notifications', moment().format('HH:mm'));
     //look up which users match this time
     //userNotificationStorage.getUsersMatchingDate(new Date(), function)
     //get an array of those users
