@@ -7,7 +7,7 @@ var scheduler = require('node-schedule'),
     logger = require('./logger'),
     slackHandler = require('./slackHandler');
 
-logger.info('Worker started');
+logger.info('Worker started', moment().format('HH:mm'));
 
 scheduler.scheduleJob('45 9 * * 1-5', function () {
     logger.debug('Posting 9:45 notification');
