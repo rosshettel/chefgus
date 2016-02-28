@@ -10,6 +10,18 @@ var express = require('express'),
 
 logger.info('Web started');
 
+userNotificationStorage.upsertUserRecord({
+    username: 'ross',
+    hour: 7,
+    minute: 10,
+    enabled: true
+}, function (err) {
+    if (err) {
+        logger.error('Error creating ross record', err);
+    }
+    logger.debug('Created ross user record');
+});
+
 app.use(bodyParser.json());
 
 app.post('/slash', function (req, res) {
