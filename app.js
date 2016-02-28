@@ -37,6 +37,7 @@ app.post('/slash', function (req, res) {
             }
         });
     }
+    logger.debug('slash request received', req);
     slackHandler.validateSlashPayload(req.body, function (err, payload) {
         if (err) {
             return respondWithError(err);
