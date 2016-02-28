@@ -26,6 +26,10 @@ app.use(bodyParser.json());
 
 app.post('/slash', function (req, res) {
     function respondWithError(err) {
+        logger.error('Responding to slash request with error', {
+            error: err,
+            body: req.body
+        });
         res.send({
             text: "My apologies, I couldn't handle your request", //todo - frenchify this
             attachments: {
