@@ -22,7 +22,7 @@ userNotificationStorage.upsertUserRecord({
     logger.debug('Created ross user record');
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/slash', function (req, res) {
     function respondWithError(err) {
