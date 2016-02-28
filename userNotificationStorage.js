@@ -12,7 +12,7 @@ var UserNotificationStorage = function () {
         }),
         User = mongoose.model('User', userSchema);
 
-    mongoose.connect('mongodb://localhost/chefgus');
+    mongoose.connect(process.env.MONGO_URL);
 
     this.getUsersMatchingDate = function (date, callback) {
         var hour = moment(date).hour(),
