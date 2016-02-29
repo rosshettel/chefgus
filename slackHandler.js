@@ -5,7 +5,9 @@ var SlackHandler = function () {
         logger = require('./logger'),
         moment = require('moment'),
         webhook = process.env.SLACK_WEBHOOK,
-        token = process.env.SLACK_TOKEN;
+        token = process.env.SLACK_TOKEN || 'foo';
+
+    require('datejs');
 
     const MAX_HOUR = 10,
         disableKeywords = [
@@ -17,7 +19,8 @@ var SlackHandler = function () {
         enableKeywords = [
             'start',
             'on',
-            ''
+            'enable',
+            'enabled'
         ];
 
     this.postToSlack = function (payload) {
@@ -32,6 +35,10 @@ var SlackHandler = function () {
         });
     };
 
+    function matchesKeywords(text) {
+        return disableKeywords.indexOf(text) > -1 || enableKeywords.indexOf(text) > -1;
+    }
+
     this.validateSlashPayload = function (payload, callback) {
         if (!payload || payload.token !== token) {
             return callback("Not a valid request");
@@ -41,37 +48,37 @@ var SlackHandler = function () {
             return callback("Didn't get your user id!");
         }
 
-        if (payload.text === 'off' || payload.text === 'disable' || payload.text === 'stop') {
-            //we're disabling
-            return callback(null, {
+        if (matchesKeywords(payload.text)) {
+            var enabled = enableKeywords.indexOf(payload.text) > -1;
+            callback(null, {
                 username: payload.user_name,
                 userid: payload.user_id,
-                enabled: false
+                enabled: enabled
+            });
+        } else {
+            var dateObj = Date.parse(payload.text),
+                date = moment(dateObj),
+                foodaLimit = Date.today().at('10 AM');
+
+            logger.debug('Date passed in', date.toString());
+
+            if (!date.isValid()) {
+                return callback("The time you gave is invalid.");
+                //todo - return a better string with acceptable input formats
+            }
+
+            if (date.isSameOrAfter(foodaLimit)) {
+                return callback("Can't set a reminder past 10 AM, Fooda no longer accepts orders!");
+            }
+
+            callback(null, {
+                username: payload.user_name,
+                userid: payload.user_id,
+                hour: date.hour(),
+                minute: date.minute(),
+                enabled: true
             });
         }
-
-        var dateObj = Date.parse(payload.text),
-            date = moment(dateObj),
-            beforeTime = Date.today().at('10 AM');
-
-        logger.debug('Date passed in', date);
-
-        if (!date.isValid()) {
-            return callback("The time you gave is invalid.");
-            //todo - return a better string with acceptable input formats
-        }
-
-        if (date.isSameOrAfter(beforeTime)) {
-            return callback("Can't set a reminder past 10 AM, Fooda no longer accepts orders!");
-        }
-
-        callback(null, {
-            username: payload.user_name,
-            userid: payload.user_id,
-            hour: date.hour(),
-            minute: date.minute(),
-            enabled: true
-        });
     };
 };
 
