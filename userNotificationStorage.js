@@ -6,6 +6,7 @@ var UserNotificationStorage = function () {
         logger = require('./logger'),
         userSchema = mongoose.Schema({
             username: String,
+            userid: String,
             hour: Number,
             minute: Number,
             enabled: {type: Boolean, default: true}
@@ -29,6 +30,7 @@ var UserNotificationStorage = function () {
     };
 
     this.upsertUserRecord = function (params, callback) {
+        logger.debug('upsertUserRecord', params);
         //first look up user
         User.findOne({username: params.username}, function (err, user) {
             if (err) {
@@ -38,13 +40,14 @@ var UserNotificationStorage = function () {
 
             //if exists, update
             if (user) {
-                user.hour = params.hour;
-                user.minute = params.minute;
+                user.hour = params.hour || user.hour;
+                user.minute = params.minute || user.minute;
                 user.enabled = params.enabled;
             } else {
                 //else create new record
                 user = new User({
                     username: params.username,
+                    userid: params.userid,
                     hour: params.hour,
                     minute: params.minute,
                     enabled: params.enabled

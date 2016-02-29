@@ -8,23 +8,15 @@ var express = require('express'),
     slackHandler = require('./slackHandler'),
     userNotificationStorage = require('./userNotificationStorage');
 
-logger.info('Web started');
+require('datejs');
 
-userNotificationStorage.upsertUserRecord({
-    username: 'ross',
-    hour: 7,
-    minute: 10,
-    enabled: true
-}, function (err) {
-    if (err) {
-        logger.error('Error creating ross record', err);
-    }
-    logger.debug('Created ross user record');
-});
+logger.info('Web started');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/slash', function (req, res) {
+    logger.debug('slash command payload', req.body);
+
     function respondWithError(err) {
         logger.error('Responding to slash request with error', {
             error: err,
@@ -37,7 +29,7 @@ app.post('/slash', function (req, res) {
             }
         });
     }
-    logger.debug('slash request received', req);
+
     slackHandler.validateSlashPayload(req.body, function (err, payload) {
         if (err) {
             return respondWithError(err);
