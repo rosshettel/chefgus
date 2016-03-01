@@ -13,7 +13,7 @@ var SlackHandler = function () {
         disableKeywords = [
             'off',
             'disable',
-            'diabled',
+            'disabled',
             'stop'
         ],
         enableKeywords = [

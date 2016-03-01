@@ -1,19 +1,9 @@
 'use stict';
 
 var UserNotificationStorage = function () {
-    var mongoose = require('mongoose'),
-        moment = require('moment'),
+    var moment = require('moment'),
         logger = require('./logger'),
-        userSchema = mongoose.Schema({
-            username: String,
-            userid: String,
-            hour: Number,
-            minute: Number,
-            enabled: {type: Boolean, default: true}
-        }),
-        User = mongoose.model('User', userSchema);
-
-    mongoose.connect(process.env.MONGO_URL);
+        User = require('./models').User;
 
     this.getUsersMatchingDate = function (date, callback) {
         var hour = moment(date).hour(),

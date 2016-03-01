@@ -6,7 +6,7 @@ var express = require('express'),
     app = express(),
     logger = require('./logger'),
     slackHandler = require('./slackHandler'),
-    userNotificationStorage = require('./userNotificationStorage');
+    userStorage = require('./userStorage');
 
 require('datejs');
 
@@ -14,19 +14,21 @@ logger.info('Web started');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.get('/', function (req, res) {
+    //this handles slacks SSL check: https://api.slack.com/slash-commands#ssl
+    res.sendStatus(200);
+});
+
 app.post('/slash', function (req, res) {
     logger.debug('slash command payload', req.body);
 
     function respondWithError(err) {
         logger.error('Responding to slash request with error', {
             error: err,
-            body: req.body
+            requestBody: req.body
         });
         res.send({
-            text: "My apologies, I couldn't handle your request", //todo - frenchify this
-            attachments: {
-                text: err
-            }
+            text: err
         });
     }
 
@@ -35,11 +37,11 @@ app.post('/slash', function (req, res) {
             return respondWithError(err);
         }
 
-        userNotificationStorage.upsertUserRecord(payload, function (err, response) {
+        userStorage.upsertUserRecord(payload, function (err) {
             if (err) {
                 return respondWithError(err);
             }
-            res.send({text: response});
+            res.send({text: 'Your notification settings are changed!'});
         });
     });
 });
