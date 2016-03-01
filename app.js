@@ -41,6 +41,7 @@ app.post('/slash', function (req, res) {
             if (err) {
                 return respondWithError(err);
             }
+            //todo - we should send back different messages depending on what changed
             res.send({text: 'Your notification settings are changed!'});
         });
     });

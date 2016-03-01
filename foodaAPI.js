@@ -6,6 +6,8 @@ var FoodaAPI = function () {
         xSessionToken = process.env.xSessionToken,
         xClientToken = process.env.xClientToken;
 
+    //todo - we shoudl cache this in the DB so we only get it once a day. you're welcome fooda
+
     this.getLunchToday = function (callback) {
         var dateString = new Date().toISOString().substr(0, 10),
             restaurants;

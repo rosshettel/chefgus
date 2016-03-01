@@ -3,7 +3,7 @@
 var scheduler = require('node-schedule'),
     moment = require('moment'),
     contentBuilder = require('./contentBuilder'),
-    userNotificationStorage = require('./userNotificationStorage'),
+    userStorage = require('./userStorage'),
     logger = require('./logger'),
     slackHandler = require('./slackHandler');
 
@@ -23,7 +23,17 @@ scheduler.scheduleJob('45 9 * * 1-5', function () {
 scheduler.scheduleJob('* * * * 1-5', function () {
     logger.debug('Checking for user notifications', moment().format('HH:mm'));
     //look up which users match this time
-    //userNotificationStorage.getUsersMatchingDate(new Date(), function)
-    //get an array of those users
-    //loop through array, build payload, post to slack
+    userStorage.getUsersMatchingDate(new Date(), function (err, users) {
+        logger.debug('found ' + users.length + ' users for ' + moment().format('HH:mm'));
+
+        users.forEach(function (user) {
+            contentBuilder.buildPayload(function (err, payload) {
+                if (err) {
+                    logger.error('Error building payload', err);
+                    return;
+                }
+                slackHandler.postToSlack(payload);
+            });
+        });
+    });
 });

@@ -1,4 +1,4 @@
-'use stict';
+'use strict';
 
 var UserNotificationStorage = function () {
     var moment = require('moment'),
