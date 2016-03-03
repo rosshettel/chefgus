@@ -20,11 +20,10 @@ scheduler.scheduleJob('45 9 * * 1-5', function () {
     });
 });
 
-scheduler.scheduleJob('* * * * 1-5', function () {
-    logger.debug('Checking for user notifications', moment().format('HH:mm'));
+scheduler.scheduleJob('* 0-9 * * 1-5', function () {
     //look up which users match this time
     userStorage.getUsersMatchingDate(new Date(), function (err, users) {
-        logger.debug('found ' + users.length + ' users for ' + moment().format('HH:mm'));
+        logger.debug('Found ' + users.length + ' users for ' + moment().format('HH:mm'));
 
         users.forEach(function (user) {
             contentBuilder.buildPayload(function (err, payload) {
