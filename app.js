@@ -1,50 +1,54 @@
 'use strict';
 
-var express = require('express'),
-    bodyParser = require('body-parser'),
-    port = process.env.PORT || 8080,
-    app = express(),
-    logger = require('./logger'),
-    slackHandler = require('./slackHandler'),
-    userStorage = require('./userStorage');
+var ClusterWrapper = require('./clusterWrapper');
 
-require('datejs');
+ClusterWrapper.run(function () {
+    var express = require('express'),
+        bodyParser = require('body-parser'),
+        port = process.env.PORT || 8080,
+        app = express(),
+        logger = require('./logger'),
+        slackHandler = require('./slackHandler'),
+        userStorage = require('./userStorage');
 
-logger.info('Web started');
+    require('datejs');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+    logger.info('Web started');
 
-app.get('/', function (req, res) {
-    //this handles slacks SSL check: https://api.slack.com/slash-commands#ssl
-    res.sendStatus(200);
-});
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-app.post('/slash', function (req, res) {
-    logger.debug('slash command payload', req.body);
+    app.get('/', function (req, res) {
+        //this handles slacks SSL check: https://api.slack.com/slash-commands#ssl
+        res.sendStatus(200);
+    });
 
-    function respondWithError(err) {
-        logger.error('Responding to slash request with error', {
-            error: err,
-            requestBody: req.body
-        });
-        res.send({
-            text: err
-        });
-    }
+    app.post('/slash', function (req, res) {
+        logger.debug('slash command payload', req.body);
 
-    slackHandler.validateSlashPayload(req.body, function (err, payload) {
-        if (err) {
-            return respondWithError(err);
+        function respondWithError(err) {
+            logger.error('Responding to slash request with error', {
+                error: err,
+                requestBody: req.body
+            });
+            res.send({
+                text: err
+            });
         }
 
-        userStorage.upsertUserRecord(payload, function (err) {
+        slackHandler.validateSlashPayload(req.body, function (err, payload) {
             if (err) {
                 return respondWithError(err);
             }
-            //todo - we should send back different messages depending on what changed
-            res.send({text: 'Your notification settings are changed!'});
+
+            userStorage.upsertUserRecord(payload, function (err) {
+                if (err) {
+                    return respondWithError(err);
+                }
+                //todo - we should send back different messages depending on what changed
+                res.send({text: 'Your notification settings are changed!'});
+            });
         });
     });
-});
 
-app.listen(port);
+    app.listen(port);
+});

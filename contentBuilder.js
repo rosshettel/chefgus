@@ -13,18 +13,18 @@ var ContentBuilder = function () {
         ];
 
 
-    this.buildPayload = function (callback) {
+    this.buildPayload = function (channel, callback) {
         var payload;
 
         foodaAPI.getLunchToday(function (err, restaurants) {
             if (err) {
-                logger.err('Fooda API error', err);
+                logger.error('Fooda API error', err);
             }
 
             payload = {
                 username: 'Chef Gus',
                 icon_emoji: ':chefgus:',
-                channel: process.env.testing === 'true' ? '#testing' : '#highground',
+                channel: channel || '#testing',
                 text: messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
             };
 
@@ -46,4 +46,4 @@ var ContentBuilder = function () {
     };
 };
 
-module.exports = ContentBuilder;
+module.exports = new ContentBuilder();

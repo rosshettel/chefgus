@@ -1,18 +1,8 @@
 'use strict';
 
-var cluster = require('cluster'),
-    logger = require('./logger');
+var ClusterWrapper = require('./clusterWrapper');
 
-if (cluster.isMaster) {
-    cluster.fork();
-
-    cluster.on('exit', function (worker, code, signal) {
-        logger.error('Worker cluster exiting');
-        cluster.fork();
-    });
-}
-
-if (cluster.isWorker) {
+ClusterWrapper.run(function () {
     var scheduler = require('node-schedule'),
         moment = require('moment'),
         contentBuilder = require('./contentBuilder'),
@@ -21,14 +11,10 @@ if (cluster.isWorker) {
 
     logger.info('Worker started', moment().format('HH:mm'));
 
-    process.on('uncaughtException', function (err) {
-        logger.error('Uncaught Exception', err);
-        process.exit(1);
-    });
-
+    // 9:45 message to main channel
     scheduler.scheduleJob('45 9 * * 1-5', function () {
         logger.debug('Posting 9:45 notification');
-        contentBuilder.buildPayload(function (err, payload) {
+        contentBuilder.buildPayload('#highground', function (err, payload) {
             if (err) {
                 logger.error('Error getting payload', err);
                 return;
@@ -37,7 +23,8 @@ if (cluster.isWorker) {
         });
     });
 
-//scheduler.scheduleJob('* 0-9 * * 1-5', function () {
+    // message to individual users, midnight to 9:59 am (fooda order cutoff)
+    //scheduler.scheduleJob('* 0-9 * * 1-5', function () {
     scheduler.scheduleJob('* * * * *', function () {
         //look up which users match this time
         userStorage.getUsersMatchingDate(new Date(), function (err, users) {
@@ -45,7 +32,7 @@ if (cluster.isWorker) {
                 logger.debug('Found ' + users.length + ' users for ' + moment().format('HH:mm'));
 
                 users.forEach(function (user) {
-                    contentBuilder.buildPayload(function (err, payload) {
+                    contentBuilder.buildPayload(user.userid, function (err, payload) {
                         if (err) {
                             logger.error('Error building payload', err);
                             return;
@@ -56,5 +43,4 @@ if (cluster.isWorker) {
             }
         });
     });
-}
-
+});
