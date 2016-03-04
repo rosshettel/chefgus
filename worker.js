@@ -7,7 +7,7 @@ if (cluster.isMaster) {
     cluster.fork();
 
     cluster.on('exit', function (worker, code, signal) {
-        logger.error('Cluster exiting');
+        logger.error('Worker cluster exiting');
         cluster.fork();
     });
 }
@@ -20,6 +20,11 @@ if (cluster.isWorker) {
         slackHandler = require('./slackHandler');
 
     logger.info('Worker started', moment().format('HH:mm'));
+
+    process.on('uncaughtException', function (err) {
+        logger.error('Uncaught Exception', err);
+        process.exit(1);
+    });
 
     scheduler.scheduleJob('45 9 * * 1-5', function () {
         logger.debug('Posting 9:45 notification');
