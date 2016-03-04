@@ -29,7 +29,6 @@ ClusterWrapper.run(function () {
     scheduler.scheduleJob('* * * * *', function () {
         //look up which users match this time
         userStorage.getUsersMatchingDate(new Date(), function (err, users) {
-            logger.debug('Found ' + users.length + ' users for ' + moment().format('HH:mm'));
             if (users.length > 0) {
                 logger.debug('Found ' + users.length + ' users for ' + moment().format('HH:mm'));
 
