@@ -5,6 +5,7 @@ var ClusterWrapper = require('./clusterWrapper');
 ClusterWrapper.run(function () {
     var scheduler = require('node-schedule'),
         moment = require('moment'),
+        logger = require('./logger'),
         contentBuilder = require('./contentBuilder'),
         userStorage = require('./userStorage'),
         slackHandler = require('./slackHandler');
