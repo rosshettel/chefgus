@@ -11,7 +11,9 @@ logger.info('Worker started', moment().format('HH:mm'));
 
 process.on('uncaughtException', function (err) {
     logger.error('Uncaught Exception!', err);
-    process.exit(1);
+    process.nextTick(function () {
+        process.exit(1);
+    });
 });
 
 scheduler.scheduleJob('45 9 * * 1-5', function () {
