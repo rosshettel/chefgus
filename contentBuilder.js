@@ -13,7 +13,7 @@ var ContentBuilder = function () {
         ];
 
 
-    this.buildPayload = function (channel, callback) {
+    this.buildChannelPayload = function (channel, callback) {
         var payload;
 
         foodaAPI.getLunchToday(function (err, restaurants) {
@@ -44,6 +44,40 @@ var ContentBuilder = function () {
             callback(null, payload);
         });
     };
+
+    this.buildUserPayload = function (channel, callback) {
+        var payload;
+
+        foodaAPI.getLunchToday(function (err, restaurants) {
+            if (err) {
+                logger.error('Fooda API error', err);
+            }
+
+            payload = {
+                username: 'Chef Gus',
+                icon_emoji: ':chefgus:',
+                channel: channel || '#testing',
+                text: messages[Math.floor(Math.random() * messages.length)] + "   :fooda:  <https://select.fooda.com/my|Order now!>"
+            };
+
+            if (restaurants) {
+                var restaurantList = '• ' + restaurants.map(function (restaurant) {
+                        return restaurant.name;
+                    }).join('\n • ');
+
+                restaurantList += '\n _Pssst, to stop me bugging you, type `/chefgus stop`_';
+                payload.attachments = [{
+                    author_name: 'Restaurants available today',
+                    author_link: 'https://select.fooda.com/my',
+                    author_icon: 'https://pbs.twimg.com/profile_images/3573354839/4739495b81fe86be4aa3748adf49b94f.png',
+                    text: restaurantList,
+                    mrkdwn: true
+                }];
+            }
+
+            callback(null, payload);
+        });
+    }
 };
 
 module.exports = new ContentBuilder();
