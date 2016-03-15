@@ -34,7 +34,7 @@ ClusterWrapper.run(function () {
                 logger.debug('Found ' + users.length + ' users for ' + moment().format('HH:mm'));
 
                 users.forEach(function (user) {
-                    contentBuilder.buildUserPayload(user.userid, function (err, payload) {
+                    contentBuilder.buildPayload(user.userid, function (err, payload) {
                         if (err) {
                             logger.error('Error building payload', err);
                             return;
