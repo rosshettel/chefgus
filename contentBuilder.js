@@ -65,7 +65,7 @@ var ContentBuilder = function () {
                         return restaurant.name;
                     }).join('\n • ');
 
-                restaurantList += '\n _Pssst, to stop me bugging you, type `/chefgus stop`_';
+                //restaurantList += '\n _Pssst, to stop me bugging you, type `/chefgus stop`_';
                 payload.attachments = [{
                     author_name: 'Restaurants available today',
                     author_link: 'https://select.fooda.com/my',
@@ -75,6 +75,11 @@ var ContentBuilder = function () {
                     mrkdwn: true
                 }];
             }
+
+            payload.attachments.push({
+                text: '_Pssst, to stop me bugging you, type `/chefgus stop`_',
+                mrkdwn_in: ["text"]
+            });
 
             callback(null, payload);
         });
