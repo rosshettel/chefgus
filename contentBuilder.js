@@ -71,6 +71,7 @@ var ContentBuilder = function () {
                     author_link: 'https://select.fooda.com/my',
                     author_icon: 'https://pbs.twimg.com/profile_images/3573354839/4739495b81fe86be4aa3748adf49b94f.png',
                     text: restaurantList,
+                    mrkdwn_in: ["text"],
                     mrkdwn: true
                 }];
             }
