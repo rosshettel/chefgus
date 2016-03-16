@@ -28,6 +28,7 @@ ClusterWrapper.run(function () {
     // message to individual users, midnight to 9:59 am (fooda order cutoff)
     //scheduler.scheduleJob('* 0-9 * * 1-5', function () {
     scheduler.scheduleJob('* * * * *', function () {
+        logger.debug('job running', moment().format('HH:mm'));
         //look up which users match this time
         userStorage.getUsersMatchingDate(new Date(), function (err, users) {
             if (users.length > 0) {
