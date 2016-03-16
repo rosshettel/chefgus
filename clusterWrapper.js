@@ -27,7 +27,7 @@ var ClusterWrapper = function () {
             mainProcess();
         }
     };
-}
+};
 
 module.exports = new ClusterWrapper();
 

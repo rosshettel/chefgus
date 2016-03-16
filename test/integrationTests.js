@@ -19,6 +19,38 @@ describe('IntegrationTests', function () {
                 });
         });
 
+        it('should return an error if not a valid time', function (done) {
+            superagent.post(host + '/slash')
+                .send({
+                    token: 'foo',
+                    user_id: '12345',
+                    user_name: 'testuser',
+                    text: 'foobar'
+                })
+                .type('application/x-www-form-urlencoded')
+                .end(function (err, res) {
+                    assert.ifError(err);
+                    assert.equal(res.body.text, "Oh merde, the time you gave is invalid!");
+                    done();
+                });
+        });
+
+        it('should return an error if past 10 am', function (done) {
+            superagent.post(host + '/slash')
+                .send({
+                    token: 'foo',
+                    user_id: '12345',
+                    user_name: 'testuser',
+                    text: '10:15 am'
+                })
+                .type('application/x-www-form-urlencoded')
+                .end(function (err, res) {
+                    assert.ifError(err);
+                    assert.equal(res.body.text, "Pardon, I can't set a reminder past 10 AM. Fooda no longer accepts orders then!");
+                    done();
+                });
+        });
+
         it('should update a valid request', function (done) {
             superagent.post(host + '/slash')
                 .send({

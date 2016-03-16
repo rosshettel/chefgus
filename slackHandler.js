@@ -62,12 +62,12 @@ var SlackHandler = function () {
             logger.debug('Date passed in', date.toString());
 
             if (!date.isValid()) {
-                return callback("The time you gave is invalid.");
+                return callback("Oh merde, the time you gave is invalid!");
                 //todo - return a better string with acceptable input formats
             }
 
             if (date.isSameOrAfter(foodaLimit)) {
-                return callback("Can't set a reminder past 10 AM, Fooda no longer accepts orders!");
+                return callback("Pardon, I can't set a reminder past 10 AM. Fooda no longer accepts orders then!");
             }
 
             callback(null, {

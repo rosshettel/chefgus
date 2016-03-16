@@ -51,7 +51,7 @@ describe('Slack Handler Test', function () {
                 user_id: 'bar',
                 text: 'sdsfd'
             }, function (err) {
-                assert.equal(err, "The time you gave is invalid.");
+                assert.equal(err, "Oh merde, the time you gave is invalid!");
                 done();
             });
         });
@@ -62,7 +62,7 @@ describe('Slack Handler Test', function () {
                 user_id: 'bar',
                 text: '10:01 am'
             }, function (err) {
-                assert.equal(err, "Can't set a reminder past 10 AM, Fooda no longer accepts orders!");
+                assert.equal(err, "Pardon, I can't set a reminder past 10 AM. Fooda no longer accepts orders then!");
                 done();
             });
         });
