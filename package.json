@@ -1,14 +1,30 @@
 {
-  "name": "fooda-warning",
+  "name": "chefgus",
   "version": "1.0.0",
   "description": "Friendly reminder for HighGround that you need to order Fooda",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "source local.env; nodemon app.js"
+  },
+  "engines": {
+    "node": "4.3.1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "superagent": "^1.2.0"
+    "body-parser": "^1.15.0",
+    "datejs": "^1.0.0-rc3",
+    "express": "^4.13.4",
+    "moment": "^2.11.2",
+    "mongoose": "^4.4.5",
+    "node-schedule": "^1.0.0",
+    "slack-winston": "0.0.4",
+    "superagent": "^1.2.0",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
   }
 }
