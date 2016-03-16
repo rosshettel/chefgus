@@ -1,11 +1,11 @@
 'use strict';
+process.env.NODE_ENV = 'test';
 
 var assert = require('assert'),
     superagent = require('superagent'),
-    server = require('../app'),
     User = require('../models').User,
-    host = 'http://localhost:8080';
-
+    host = 'http://localhost:8080',
+    server = require('../app');
 
 describe('IntegrationTests', function () {
     describe('Slash command', function () {
@@ -30,7 +30,7 @@ describe('IntegrationTests', function () {
                 .type('application/x-www-form-urlencoded')
                 .end(function (err, res) {
                     assert.ifError(err);
-                    assert.equal(res.body.text, "Your notification settings are changed!");
+                    assert.equal(res.body.text, "Oui mon ami, I'll remind you then!");
 
                     User.findOne({username: 'testuser'}, function (err, user) {
                         assert.ifError(err);
@@ -53,7 +53,7 @@ describe('IntegrationTests', function () {
                 .type('application/x-www-form-urlencoded')
                 .end(function (err, res) {
                     assert.ifError(err);
-                    assert.equal(res.body.text, "Your notification settings are changed!");
+                    assert.equal(res.body.text, "Je comprends, I won't send you any more reminders!");
 
                     User.findOne({username: 'testuser'}, function (err, user) {
                         assert.ifError(err);
@@ -77,7 +77,7 @@ describe('IntegrationTests', function () {
                 .type('application/x-www-form-urlencoded')
                 .end(function (err, res) {
                     assert.ifError(err);
-                    assert.equal(res.body.text, "Your notification settings are changed!");
+                    assert.equal(res.body.text, "Oui mon ami, I'll remind you then!");
 
                     User.findOne({username: 'testuser'}, function (err, user) {
                         assert.ifError(err);

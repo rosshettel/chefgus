@@ -44,8 +44,11 @@ ClusterWrapper.run(function () {
                 if (err) {
                     return respondWithError(err);
                 }
-                //todo - we should send back different messages depending on what changed
-                res.send({text: 'Your notification settings are changed!'});
+                if (payload.enabled === false) {
+                    res.send({text: "Je comprends, I won't send you any more reminders!"});
+                } else {
+                    res.send({text: "Oui mon ami, I'll remind you then!"})
+                }
             });
         });
     });
