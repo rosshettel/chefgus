@@ -52,7 +52,7 @@ var UserNotificationStorage = function () {
                 callback();
             });
         });
-    }
+    };
 };
 
 module.exports = new UserNotificationStorage();
