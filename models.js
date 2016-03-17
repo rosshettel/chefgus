@@ -7,10 +7,15 @@ var mongoose = require('mongoose'),
         hour: Number,
         minute: Number,
         enabled: {type: Boolean, default: true}
+    }),
+    MenuSchema = new mongoose.Schema({
+        date: Date,
+        menu: {}
     });
 
 mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost/chefgus');
 
 module.exports = {
-    User: mongoose.model('User', UserSchema)
+    User: mongoose.model('User', UserSchema),
+    Menu: mongoose.model('Menu', MenuSchema)
 };
