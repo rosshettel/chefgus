@@ -49,7 +49,7 @@ var UserNotificationStorage = function () {
                     logger.error('Error saving user', err);
                     return callback(err);
                 }
-                callback();
+                callback(null, user);
             });
         });
     };

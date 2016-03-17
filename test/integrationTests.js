@@ -62,7 +62,7 @@ describe('IntegrationTests', function () {
                 .type('application/x-www-form-urlencoded')
                 .end(function (err, res) {
                     assert.ifError(err);
-                    assert.equal(res.body.text, "Oui mon ami, I'll remind you then!");
+                    assert.equal(res.body.text, "Oui mon ami, I'll remind you at 9:35 AM!");
 
                     User.findOne({username: 'testuser'}, function (err, user) {
                         assert.ifError(err);
@@ -109,7 +109,7 @@ describe('IntegrationTests', function () {
                 .type('application/x-www-form-urlencoded')
                 .end(function (err, res) {
                     assert.ifError(err);
-                    assert.equal(res.body.text, "Oui mon ami, I'll remind you then!");
+                    assert.equal(res.body.text, "Oui mon ami, I'll remind you at 9:35 AM!");
 
                     User.findOne({username: 'testuser'}, function (err, user) {
                         assert.ifError(err);

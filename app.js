@@ -5,6 +5,7 @@ var ClusterWrapper = require('./clusterWrapper');
 ClusterWrapper.run(function () {
     var express = require('express'),
         bodyParser = require('body-parser'),
+        moment = require('moment'),
         port = process.env.PORT || 8080,
         app = express(),
         logger = require('./logger'),
@@ -40,14 +41,15 @@ ClusterWrapper.run(function () {
                 return respondWithError(err);
             }
 
-            userStorage.upsertUserRecord(payload, function (err) {
+            userStorage.upsertUserRecord(payload, function (err, user) {
                 if (err) {
                     return respondWithError(err);
                 }
                 if (payload.enabled === false) {
                     res.send({text: "Je comprends, I won't send you any more reminders!"});
                 } else {
-                    res.send({text: "Oui mon ami, I'll remind you then!"})
+                    var time = moment().hour(user.hour).minute(user.minute);
+                    res.send({text: "Oui mon ami, I'll remind you at " + time.format('LT') + "!"})
                 }
             });
         });
