@@ -20,7 +20,6 @@ var UserNotificationStorage = function () {
     };
 
     this.upsertUserRecord = function (params, callback) {
-        logger.debug('upsertUserRecord', params);
         //first look up user
         User.findOne({username: params.username}, function (err, user) {
             if (err) {

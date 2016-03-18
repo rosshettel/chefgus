@@ -29,11 +29,7 @@ var SlackHandler = function () {
                 logger.error('Error posting to slack', err);
             }
             if (res.status !== 200) {
-                logger.error('Slack returned non 200 response code', {
-                    text: res.text,
-                    error: res.error,
-                    body: res.body
-                });
+                logger.error('Slack returned error', error: res.error);
             }
         });
     };
@@ -62,8 +58,6 @@ var SlackHandler = function () {
             var dateObj = Date.parse(payload.text),
                 date = moment(dateObj),
                 foodaLimit = Date.today().at('10 AM');
-
-            logger.debug('Date passed in', date.toString());
 
             if (!date.isValid()) {
                 return callback("Oh merde, the time you gave is invalid!");

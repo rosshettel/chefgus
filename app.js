@@ -24,8 +24,6 @@ ClusterWrapper.run(function () {
     });
 
     app.post('/slash', function (req, res) {
-        logger.debug('slash command payload', req.body);
-
         function respondWithError(err) {
             logger.error('Responding to slash request with error', {
                 error: err,
@@ -41,15 +39,19 @@ ClusterWrapper.run(function () {
                 return respondWithError(err);
             }
 
+            logger.info(params.)
+
             userStorage.upsertUserRecord(payload, function (err, user) {
                 if (err) {
                     return respondWithError(err);
                 }
                 if (payload.enabled === false) {
+                    logger.info(payload.username + ' disabled notifications');
                     res.send({text: "Je comprends, I won't send you any more reminders!"});
                 } else {
-                    var time = moment().hour(user.hour).minute(user.minute);
-                    res.send({text: "Oui mon ami, I'll remind you at " + time.format('LT') + "!"})
+                    var time = moment().hour(user.hour).minute(user.minute).format('LT');
+                    logger.info(payload.username + ' set a reminder for ' + time);
+                    res.send({text: "Oui mon ami, I'll remind you at " + time + "!"})
                 }
             });
         });
