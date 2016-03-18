@@ -29,7 +29,7 @@ var SlackHandler = function () {
                 logger.error('Error posting to slack', err);
             }
             if (res.status !== 200) {
-                logger.error('Slack returned error', error: res.error);
+                logger.error('Slack returned error', res.error);
             }
         });
     };

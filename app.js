@@ -39,8 +39,6 @@ ClusterWrapper.run(function () {
                 return respondWithError(err);
             }
 
-            logger.info(params.)
-
             userStorage.upsertUserRecord(payload, function (err, user) {
                 if (err) {
                     return respondWithError(err);
