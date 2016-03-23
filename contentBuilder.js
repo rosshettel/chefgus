@@ -47,6 +47,11 @@ var ContentBuilder = function () {
                     text: '_Pssst, to stop me bugging you, type `/chefgus stop`_',
                     mrkdwn_in: ["text"]
                 });
+            } else {
+                payload.attachments.push({
+                    text: '_Set a custom reminder by using `/chefgus [time]`_',
+                    mrkdwn_in: ["text"]
+                });
             }
 
             callback(null, payload);
