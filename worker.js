@@ -11,7 +11,7 @@ ClusterWrapper.run(function () {
         slackHandler = require('./slackHandler'),
         mainChannel = process.env.MAIN_CHANNEL || '#testing';
 
-    logger.info('Worker started', moment().format('HH:mm'));
+    logger.info('Worker started 🍳', moment().format('HH:mm'));
 
     // 9:45 message to main channel
     scheduler.scheduleJob('45 9 * * 1-5', function () {

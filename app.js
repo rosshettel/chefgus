@@ -14,7 +14,7 @@ ClusterWrapper.run(function () {
 
     require('datejs');
 
-    logger.info('Web started');
+    logger.info('Web started 🍳');
 
     app.use(bodyParser.urlencoded({ extended: false }));
 
